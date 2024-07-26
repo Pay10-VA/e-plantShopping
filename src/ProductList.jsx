@@ -257,13 +257,18 @@ const handleAddToCart = (e) => {
     handleCartNum(true);
 };
 
-const handleCartNum = (inc) => {
+const handleCartNum = (inc, numDec = 0) => {
     let newCartNum = cartNum;
-    if(inc) {
-        newCartNum++;
+    if(numDec !== 0) {
+        newCartNum = newCartNum - numDec;
     }
     else {
-        newCartNum--;
+        if(inc) {
+            newCartNum++;
+        }
+        else {
+            newCartNum--;
+        }
     }
     setCartNum(newCartNum);
 }
