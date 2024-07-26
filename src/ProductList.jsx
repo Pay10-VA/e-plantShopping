@@ -239,7 +239,6 @@ function ProductList() {
     textDecoration: 'none',
    }
    const handleCartClick = (e) => {
-    console.log('here')
     e.preventDefault();
     setShowCart(true); // Set showCart to true when cart icon is clicked
 };
