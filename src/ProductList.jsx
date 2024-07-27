@@ -9,6 +9,7 @@ function ProductList() {
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCard, setAddedToCart] = useState({});
     const [cartNum, setCartNum] = useState(0);
+    const [inCart, setInCart] = useState(false);
     const dispatch = useDispatch();
 
     const plantsArray = [
@@ -254,7 +255,15 @@ const handleAddToCart = (e) => {
         ...prevState,
         [e.name]: true, 
     }));
+    setInCart(true);
     handleCartNum(true);
+};
+
+const removeItemFromMap = (e) => {
+    setAddedToCart((prevState) => ({
+        ...prevState,
+        [e.name]: false, 
+    }));
 };
 
 const handleCartNum = (inc, numDec = 0) => {
@@ -276,6 +285,7 @@ const handleCartNum = (inc, numDec = 0) => {
    const handleContinueShopping = (e) => {
     e.preventDefault();
     setShowCart(false);
+    setInCart(false);
   };
     return (
         <div>
@@ -309,7 +319,12 @@ const handleCartNum = (inc, numDec = 0) => {
                         <div className="product-title">{plant.name}</div>
                         <p>{plant.description}</p>
                         <p><strong>{plant.cost}</strong></p>
-                        <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                        {
+                            addedToCard[plant.name] === true && <button  className="product-button.added-to-cart" >Added to Cart</button>
+                        }
+                        {
+                            !addedToCard[plant.name] && <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart {inCart}</button>
+                        }
                     </div>
                     ))}
                 </div>
@@ -317,7 +332,7 @@ const handleCartNum = (inc, numDec = 0) => {
             ))}
         </div>
  ) :  (
-    <CartItem onContinueShopping={handleContinueShopping} onCartNum={handleCartNum}/>
+    <CartItem onContinueShopping={handleContinueShopping} onCartNum={handleCartNum} removeItemFromMap={removeItemFromMap}/>
 )}
     </div>
     );
